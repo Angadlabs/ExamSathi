@@ -155,7 +155,7 @@
 <div id="es-install-modal" class="es-modal-overlay">
   <div class="es-modal-card">
     <!-- यहाँ अपने Exam Sathi के लोगो का लिंक रखें -->
-    <img src="https://cdn.jsdelivr.net/gh/Angadlabs/Angadlabs.github.io@main/assets/examsathi-logo.jpg" alt="Exam Sathi" class="es-modal-logo">
+    <img src="https://cdn.jsdelivr.net/gh/Angadlabs/Angadlabs.github.io@main/assets/Examlogo.jpeg" alt="Exam Sathi" class="es-modal-logo">
     
     <h2 class="es-modal-title">Exam Sathi App</h2>
     <div class="es-modal-sub">Powered by Angad Labs</div>
@@ -180,7 +180,7 @@
   // 1. Service Worker रजिस्टर करना
   if ("serviceWorker" in navigator) {
     window.addEventListener("load", () => {
-      navigator.serviceWorker.register("https://cdn.jsdelivr.net/gh/Angadlabs/ExamSathiR@main/sw.js").catch(() => {});
+      navigator.serviceWorker.register("sw.js").catch(() => {});
     });
   }
 
