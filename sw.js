@@ -1,8 +1,8 @@
 const CACHE_NAME = "examsathi-live-v1";
 const ASSETS_TO_CACHE = [
   "./",
-  "https://cdn.jsdelivr.net/gh/Angadlabs/ExamSathiR@main/index.html",
-  "https://cdn.jsdelivr.net/gh/Angadlabs/ExamSathiR@main/manifest.json"
+  "./index.html",
+  "./manifest.json"
 ];
 
 // 1. इंस्टॉल होते ही तुरंत एक्टिव करना
