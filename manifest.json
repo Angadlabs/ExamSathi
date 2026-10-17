@@ -3,7 +3,7 @@
   "name": "Exam Sathi - Study & Quiz App",
   "short_name": "Exam Sathi",
   "description": "यूपी बोर्ड और प्रतियोगी परीक्षाओं की तैयारी के लिए बेस्ट स्टडी और लाइव क्विज ऐप।",
-  "start_url": "https://cdn.jsdelivr.net/gh/Angadlabs/ExamSathiR@main/index.html",
+  "start_url": "https://angadlabs.github.io/ExamSathi/",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait",
