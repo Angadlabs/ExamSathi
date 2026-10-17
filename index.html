@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Exam Sathi</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Angadlabs/ExamSathiR@main/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Angadlabs/ExamSathiR@main/style.css">
+
+    <link rel="apple-touch-icon" href="https://cdn.jsdelivr.net/gh/Angadlabs/ExamSathiR@main/icon.png">
+    
+    <meta name="theme-color" content="#01875f">
+<link rel="manifest" href="https://cdn.jsdelivr.net/gh/Angadlabs/ExamSathiR@main/manifest.json">
+<style>
+  html, body {
+    overscroll-behavior-y: none;
+  }
+</style>
+
+</head>
+<body>
+    <script src="https://cdn.jsdelivr.net/gh/Angadlabs/ExamSathiR@main/papaparse.min.js"></script>
+
+
+
+<!-- ================= EXAM SATHI FULL-SCREEN INSTALL POPUP ================= -->
+<style>
+  .es-modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.78);
+    backdrop-filter: blur(4px);
+    z-index: 999999;
+    align-items: center;
+    justify-content: center;
+    padding: 18px;
+    font-family: 'Roboto', sans-serif;
+  }
+
+  .es-modal-card {
+    background: #ffffff;
+    width: 100%;
+    max-width: 370px;
+    border-radius: 22px;
+    padding: 24px 20px 20px;
+    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.35);
+    text-align: center;
+    border: 2px solid #01875f;
+    animation: esPopupZoom 0.25s ease-out;
+  }
+
+  @keyframes esPopupZoom {
+    from {
+      transform: scale(0.85);
+      opacity: 0;
+    }
+    to {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+
+  .es-modal-logo {
+    width: 72px;
+    height: 72px;
+    border-radius: 18px;
+    object-fit: cover;
+    border: 2px solid #0f172a;
+    margin: 0 auto 12px;
+    display: block;
+    background: #f8fafc;
+  }
+
+  .es-modal-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: #0f172a;
+    margin: 0;
+  }
+
+  .es-modal-sub {
+    font-size: 12.5px;
+    color: #01875f;
+    font-weight: 700;
+    margin-top: 3px;
+    margin-bottom: 14px;
+  }
+
+  .es-modal-info-box {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    padding: 12px 14px;
+    text-align: left;
+    margin-bottom: 18px;
+  }
+
+  .es-modal-info-title {
+    font-size: 13.5px;
+    font-weight: 700;
+    color: #0f172a;
+    margin-bottom: 6px;
+    display: block;
+  }
+
+  .es-modal-list {
+    margin: 0;
+    padding-left: 18px;
+    font-size: 13px;
+    color: #334155;
+    line-height: 1.6;
+  }
+
+  .es-modal-btn-row {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+  }
+
+  .es-btn-cancel {
+    flex: 1;
+    background: #f1f5f9;
+    color: #334155;
+    border: 1.5px solid #cbd5e1;
+    padding: 12px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  .es-btn-cancel:active {
+    background: #e2e8f0;
+  }
+
+  .es-btn-install {
+    flex: 1.3;
+    background: #01875f;
+    color: #ffffff;
+    border: none;
+    padding: 12px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(1, 135, 95, 0.3);
+  }
+
+  .es-btn-install:active {
+    background: #016848;
+  }
+</style>
+
+<div id="es-install-modal" class="es-modal-overlay">
+  <div class="es-modal-card">
+    <!-- यहाँ अपने Exam Sathi के लोगो का लिंक रखें -->
+    <img src="https://cdn.jsdelivr.net/gh/Angadlabs/Angadlabs.github.io@main/assets/examsathi-logo.jpg" alt="Exam Sathi" class="es-modal-logo">
+    
+    <h2 class="es-modal-title">Exam Sathi App</h2>
+    <div class="es-modal-sub">Powered by Angad Labs</div>
+
+    <div class="es-modal-info-box">
+      <span class="es-modal-info-title">📲 यह ऐप क्यों इंस्टॉल करें?</span>
+      <ul class="es-modal-list">
+        <li>सीधे आपके फोन की होम-स्क्रीन पर जुड़ जाएगा।</li>
+        <li>बिना इंटरनेट (Offline) भी पढ़ाई और क्विज चलेगा।</li>
+        <li>फुल-स्क्रीन और सुपरफास्ट एंड्राइड ऐप अनुभव।</li>
+        <li>नए प्रश्न और अपडेट अपने आप जुड़ जाएंगे।</li>
+      </ul>
+    </div>
+
+    <div class="es-modal-btn-row">
+      <button type="button" id="es-cancel-btn" class="es-btn-cancel">Cancel</button>
+      <button type="button" id="es-install-btn" class="es-btn-install">📲 Install App</button>
+    </div>
+  </div>
+</div>
+<script>
+  // 1. Service Worker रजिस्टर करना
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
+      navigator.serviceWorker.register("https://cdn.jsdelivr.net/gh/Angadlabs/ExamSathiR@main/sw.js").catch(() => {});
+    });
+  }
+
+  // 2. चेक करना कि क्या ऐप पहले से फोन में इंस्टॉल (Standalone Mode) है
+  function isAppAlreadyInstalled() {
+    return (
+      window.matchMedia("(display-mode: standalone)").matches ||
+      window.navigator.standalone === true
+    );
+  }
+
+  let esDeferredPrompt = null;
+  const esModal = document.getElementById("es-install-modal");
+  const esInstallBtn = document.getElementById("es-install-btn");
+  const esCancelBtn = document.getElementById("es-cancel-btn");
+
+  // 3. अगर ऐप इंस्टॉल नहीं है, तभी पॉपअप दिखाना
+  window.addEventListener("beforeinstallprompt", (e) => {
+    e.preventDefault();
+    esDeferredPrompt = e;
+
+    // अगर यूजर ने इस सेशन में Cancel नहीं दबाया है और ऐप इंस्टॉल नहीं है, तो पॉपअप खोलो
+    if (!isAppAlreadyInstalled() && !sessionStorage.getItem("es_popup_closed")) {
+      if (esModal) {
+        esModal.style.display = "flex";
+      }
+    }
+  });
+
+  // 4. जब यूजर "Install App" बटन दबाए
+  if (esInstallBtn) {
+    esInstallBtn.addEventListener("click", async () => {
+      if (esDeferredPrompt) {
+        esDeferredPrompt.prompt();
+        const { outcome } = await esDeferredPrompt.userChoice;
+        if (outcome === "accepted") {
+          if (esModal) esModal.style.display = "none";
+        }
+        esDeferredPrompt = null;
+      }
+    });
+  }
+
+  // 5. जब यूजर "Cancel" बटन दबाए (पॉपअप बंद हो जाएगा और ऐप चलता रहेगा)
+  if (esCancelBtn) {
+    esCancelBtn.addEventListener("click", () => {
+      if (esModal) {
+        esModal.style.display = "none";
+      }
+      // जब तक यूजर ऐप चला रहा है तब तक दोबारा पॉपअप परेशान न करे
+      sessionStorage.setItem("es_popup_closed", "true");
+    });
+  }
+
+  // 6. इंस्टॉल पूरा होते ही पॉपअप तुरंत बंद करना
+  window.addEventListener("appinstalled", () => {
+    if (esModal) {
+      esModal.style.display = "none";
+    }
+    esDeferredPrompt = null;
+  });
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- 1. एडवरटाइजमेंट बॉक्स (60px) -->
+    <div id="adBoxContainer" class="ad-box">
+        <div id="adsbox"></div>
+    </div>
+
+    <!-- 2. मेन ऐप कंटेनर -->
+    <div id="mainContainer100" class="main-container100">
+        
+        <!-- हेडर बार (अब सिर्फ बैक बटन और टाइटल के लिए) -->
+        <header id="headerBox100" class="header-box100">
+            <h1 id="mainHeader100" class="main-header100">Exam Center</h1>
+            <div id="headerBtnGroup100" class="header-btn-group100">
+                <!-- बैक बटन (जरूरत पड़ने पर ही दिखेगा) -->
+                <button id="dynamicTopBtn100" class="header-btn100" style="display: none;"><i class="fa-solid fa-arrow-left"></i> Back</button>
+            </div>
+        </header>
+
+        <!-- सभी स्क्रीन्स का रैपर -->
+        <div class="screens-wrapper">
+            
+            <div id="loadingScreen100" class="screen100">
+                <h2 class="loading-text100"><i class="fa-solid fa-spinner fa-spin"></i> डेटा लोड हो रहा है...</h2>
+            </div>
+
+            <!-- मास्टर स्क्रीन्स (Courses और Tests के लिए) -->
+            <div id="masterCoursesScreen100" class="screen100 active-screen100"><div id="masterCoursesList100" class="list-container100"></div></div>
+            <div id="masterTestsScreen100" class="screen100"><div id="masterTestsList100" class="list-container100"></div></div>
+
+            <!-- अंदर की लिस्ट्स (Topic, Subject, Chapter) -->
+            <div id="topicScreen100" class="screen100"><div id="topicList100" class="list-container100"></div></div>
+            <div id="subjectScreen100" class="screen100"><div id="subjectList100" class="list-container100"></div></div>
+            <div id="chapterScreen100" class="screen100"><div id="chapterList100" class="list-container100"></div></div>
+
+            <!-- सेव्ड क्वेश्चन स्क्रीन (अब मेन टैब है) -->
+            <div id="savedScreen100" class="screen100">
+                <h2 id="savedTitle100" class="history-title100">Saved Questions</h2>
+                <div id="savedListContainer100" class="list-container100"></div>
+            </div>
+
+            <!-- हिस्ट्री स्क्रीन (अब मेन टैब है) -->
+            <div id="historyScreen100" class="screen100">
+                <h2 id="historyTitle100" class="history-title100">Your History</h2>
+                <div id="historyList100" class="history-list100"></div>
+                <button id="clearHistoryBtn100" class="clear-btn100">Delete All History</button>
+            </div>
+
+            <!-- प्रोफाइल स्क्रीन -->
+            <div id="profileScreen100" class="screen100 profile-screen">
+                <div class="profile-card">
+                    <img src="icon.png" id="profileSmallImg100" alt="Profile" class="profile-img">
+                    <h2 id="profileNameDisplay" class="profile-name">Student Name</h2>
+                    <p id="profileFatherDisplay" class="profile-father">Father: -</p>
+                </div>
+                <div class="profile-stats">
+                    <button id="editProfileDetailsBtn" class="popup-btn100" style="margin-top:20px;">Edit Name Details</button>
+                </div>
+                <div class="settings-group100">
+                    <div class="setting-item100">
+                        <span style="color: #f8fafc; font-weight: bold;"><i class="fa-solid fa-music" style="color: #38bdf8;"></i> Click Sound</span>
+                        <label class="toggle-switch100">
+                            <input type="checkbox" id="soundToggle100">
+                            <span class="slider100"></span>
+                        </label>
+                    </div>
+                    <div class="setting-item100">
+                        <span style="color: #f8fafc; font-weight: bold;"><i class="fa-solid fa-sun" style="color: #f59e0b;"></i> Light Mode</span>
+                        <label class="toggle-switch100">
+                            <input type="checkbox" id="lightModeToggle100">
+                            <span class="slider100"></span>
+                        </label>
+                    </div>
+                </div>
+                <!-- ==========================================
+     नया: About App, Support & Play Store Links 
+=========================================== -->
+<div class="about-app-card100">
+    <!-- डेवलपर और कंपनी का नाम -->
+    <h2 class="dev-name-title100">अंगद</h2>
+    <p class="powered-by100">Powered by Angad Labs</p>
+    
+    <!-- ऐप के बारे में -->
+    <p class="app-desc100">
+        Exam Sathi छात्रों और शिक्षकों के लिए एक बेहतरीन एग्जाम और क्विज प्लेटफ़ॉर्म है। यहाँ आप अपनी परीक्षा की तैयारी को और भी मजबूत बना सकते हैं।
+    </p>
+
+    <!-- डेवलपर की जानकारी -->
+    <div class="dev-info-row100">
+        <span><i class="fa-solid fa-code"></i> Developer:</span>
+        <strong>अंगद</strong>
+    </div>
+
+    <!-- एक्शन बटन्स (क्विज जुड़वाना और सपोर्ट) -->
+    <div class="action-links-group100">
+        <!-- यहाँ YOUR_GOOGLE_FORM_LINK की जगह अपने Google Form की लिंक डालें -->
+        <a href="mailto:contact.codewithangad@gmail.com?subject=Exam Sathi Add your question" class="action-btn100 submit-quiz-btn100">
+            <i class="fa-solid fa-file-circle-plus"></i> अपने सवाल / क्विज जुड़वाएं
+        </a>
+        
+        <!-- यहाँ yourmail@gmail.com की जगह अपना असली ईमेल डालें -->
+        <a href="mailto:contact.codewithangad@gmail.com?subject=Exam Sathi App Support" class="action-btn100 contact-btn100">
+            <i class="fa-solid fa-envelope"></i> सहायता के लिए संपर्क करें (Email)
+        </a>
+    </div>
+
+    <!-- Play Store के लिए लीगल लिंक्स -->
+    <div class="legal-links-group100">
+<!-- Privacy Policy को Chrome या बाहरी ब्राउज़र में खोलने के लिए -->
+<a href="intent://Angad50.github.io/ExamSathi-Legal/privacy.html#Intent;scheme=https;action=android.intent.action.VIEW;end;">Privacy Policy</a>
+
+<span>|</span>
+
+<!-- Terms of Service को Chrome या बाहरी ब्राउज़र में खोलने के लिए -->
+<a href="intent://Angad50.github.io/ExamSathi-Legal/terms.html#Intent;scheme=https;action=android.intent.action.VIEW;end;">Terms of Service</a>
+
+    </div>
+</div>
+
+            </div>
+
+            <!-- क्विज की स्क्रीन -->
+            <div id="quizScreen100" class="screen100">
+                <div id="topNavScroll100" class="top-nav-scroll100"></div>
+                <div id="quizInfoBar100" class="quiz-info-bar100">
+                    <div id="timerMarksWrap100" class="timer-marks-wrap100">
+                        <span id="timerDisplay100" class="timer-display100">समय: --:--</span>
+                        <span id="marksDisplay100" class="marks-display100">प्रति प्रश्न: -- | पूर्णांक: --</span>
+                    </div>
+                    <button id="submitQuizBtn100" class="submit-top-btn100">Submit</button>
+                    <button id="quitQuizBtn100" class="quit-btn100">Exit</button>
+                </div>
+                <div id="allQuestionsContainer100" class="all-questions-container100"></div>
+            </div>
+
+        </div>
+
+        <!-- 3. बॉटम नेविगेशन बार (अब 5 टैब्स हैं) -->
+        <nav id="bottomNavbar" class="bottom-nav">
+            <button class="nav-tab active-tab" id="navCourses">
+                <i class="fa-solid fa-book-open"></i><span>Courses</span>
+            </button>
+            <button class="nav-tab" id="navTests">
+                <i class="fa-solid fa-file-pen"></i><span>Tests</span>
+            </button>
+            <button class="nav-tab" id="navSaved">
+                <i class="fa-solid fa-heart"></i><span>Saved</span>
+            </button>
+            <button class="nav-tab" id="navHistory">
+                <i class="fa-solid fa-clock-rotate-left"></i><span>History</span>
+            </button>
+            <button class="nav-tab" id="navProfile">
+                <i class="fa-solid fa-user"></i><span>Profile</span>
+            </button>
+        </nav>
+
+    </div>
+
+    <!-- ==========================================
+         पॉपअप्स (Overlays)
+    =========================================== -->
+    <div id="overlay100" class="overlay100"></div>
+
+    <!-- नया: मास्टर लिंक का पासवर्ड पॉपअप -->
+    <div id="masterPwdPopup100" class="popup-box100">
+        <h3 class="popup-title100">Secured Section</h3>
+        <p style="color:#94a3b8; font-size:0.9rem; margin-bottom:10px; text-align:center;">इस सेक्शन को खोलने के लिए पासवर्ड दर्ज करें</p>
+        <input type="password" id="masterPwdInput100" class="input-box100" placeholder="Enter Password">
+        <button id="verifyMasterPwdBtn100" class="popup-btn100">Unlock</button>
+        <button id="cancelMasterPwdBtn100" class="popup-cancel-btn100">Cancel</button>
+    </div>
+
+    <!-- प्रोफाइल सेटअप / एडिट पॉपअप -->
+    <div id="onboardingPopup100" class="popup-box100">
+        <h3 class="popup-title100">Your Details</h3>
+        <input type="text" id="setupFirstName" class="input-box100" placeholder="First Name">
+        <input type="text" id="setupLastName" class="input-box100" placeholder="Last Name">
+        <input type="text" id="setupFatherName" class="input-box100" placeholder="Father's Name">
+        <button id="saveProfileSetupBtn" class="popup-btn100">Save</button>
+    </div>
+
+    <!-- इमेज व्यूअर पॉपअप -->
+    <div id="imageViewPopup100" class="popup-box100 image-viewer-popup">
+        <button id="closeImageViewerBtn" class="close-icon-btn"><i class="fa-solid fa-xmark"></i></button>
+        <div class="viewer-img-container">
+            <img src="icon.png" id="profileLargeImg100" alt="Enlarged Profile" class="large-profile-img">
+        </div>
+        <input type="file" id="imageUploader100" accept="image/*" style="display: none;">
+        <button id="uploadNewPhotoBtn" class="popup-btn100"><i class="fa-solid fa-camera"></i> Edit Photo</button>
+    </div>
+
+    <!-- एंट्री, एग्जिट, क्विट पासवर्ड पॉपअप्स (Chapter Level) -->
+    <div id="entryPwdPopup100" class="popup-box100">
+        <h3 class="popup-title100">Chapter Password</h3>
+        <input type="password" id="entryPwdInput100" class="input-box100" placeholder="Password">
+        <button id="verifyEntryBtn100" class="popup-btn100">Start Exam</button>
+        <button id="cancelEntryBtn100" class="popup-cancel-btn100">Cancel</button>
+    </div>
+
+    <div id="quitAuthPopup100" class="popup-box100">
+        <h3 class="popup-title100">सुरक्षा जाँच</h3>
+        <input type="password" id="quitAuthInput100" class="input-box100" placeholder="Exit Code">
+        <button id="verifyQuitBtn100" class="popup-btn100">Confirm & Exit</button>
+        <button id="cancelQuitBtn100" class="popup-cancel-btn100">Cancel</button>
+    </div>
+
+    <div id="exitPwdPopup100" class="popup-box100">
+        <h3 class="popup-title100">Result Code</h3>
+        <input type="password" id="exitPwdInput100" class="input-box100" placeholder="Result Code">
+        <button id="verifyExitBtn100" class="popup-btn100">View Result</button>
+        <button id="cancelExitBtn100" class="popup-cancel-btn100">Return</button>
+    </div>
+
+    <div id="resultPopup100" class="popup-box100 result-popup100">
+        <h3 class="popup-title100">Result</h3>
+        <div id="resultStats100" class="result-stats100"></div>
+        <button id="previewBtn100" class="popup-btn100"><i class="fa-solid fa-eye"></i> Preview</button>
+        <button id="downloadBtn100" class="popup-btn100"><i class="fa-solid fa-download"></i> Download</button>
+        <button id="homeFromResultBtn100" class="popup-cancel-btn100">Go Home</button>
+    </div>
+
+    <div id="customAlertPopup100" class="popup-box100" style="z-index: 2000; border-color:#ef4444;">
+        <p id="customAlertMessage100" class="alert-message100"></p>
+        <button id="closeAlertBtn100" class="popup-btn100">OK</button>
+    </div>
+    
+    <div id="retryPopup100" class="popup-box100">
+        <h3 class="popup-title100">Internet Error</h3>
+        <button id="retryFetchBtn100" class="popup-btn100">Try again</button>
+    </div>
+    
+    <!-- होम पेज मैसेज / नोटिस पॉपअप -->
+    <div id="homeMessagePopup100" class="popup-box100" style="z-index: 2005;">
+        <h3 class="popup-title100">Notice</h3>
+        <div id="homeMessageContent100" class="alert-message100 selectable-text100" style="text-align: left; max-height: 300px; overflow-y: auto; line-height: 1.6;"></div>
+        <button id="closeHomeMsgBtn100" class="popup-btn100" style="margin-top: 15px;">Close</button>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/gh/Angadlabs/ExamSathiR@main/script.js"></script>
+</body>
+</html>
