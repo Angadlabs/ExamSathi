@@ -1,9 +1,0 @@
-{
-  "name": "ExamSathi",
-  "main": "index.html",
-  "window": {
-    "title": "Exam Sathi",
-    "icon": "icon.png",
-    "fullscreen": true
-  }
-}
