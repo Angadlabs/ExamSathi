@@ -810,7 +810,7 @@ function generateCanvasCard100(r) {
     
     // मुहर (Signature) - लाइन्स बढ़ने के कारण Y पोजीशन को 1350 पर सेट किया गया है
     let sigImg = new Image(); 
-    sigImg.src = "signature.png"; 
+    sigImg.src = "https://cdn.jsdelivr.net/gh/Angadlabs/ExamSathiR@main/signature.png"; 
     sigImg.onload = function() { 
         ctx.drawImage(sigImg, 850, 1150, 250, 250); 
         triggerDownload(); 
